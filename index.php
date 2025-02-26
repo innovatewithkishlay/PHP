@@ -19,40 +19,33 @@
     ];
 
     function calculateGrade($average){
-        if($average>=90) return "Excellent";
-        if($average>=80) return "Good";
-        if($average>=70) return "Average";
-        if($average>=60) return "Below Average";
-        return "Failed";
+        if($average>=90) return ["grade"=>"Excellent","color"=> "green"];
+        if($average>=80) return ["grade"=>"Good","color"=>"blue"];
+        if($average>=70) return ["grade"=>"Average","color"=>"yellow"];
+        if($average>=60) return ["grade"=>"Below Average","color"=>"orange"];
+        return ["grade"=>"Failed","color"=>"red"];
     }
 
     foreach ($students as $student){
         $name=$student["name"];
         $subject_count=count($student["scores"]);
-        echo "<div class='bg-white w-[300px] h-[300px] rounded-lg shadow-md p-[20px] mt-[20px]'>";
+        $total_marks=array_sum($student["scores"]);
+        $average=($total_marks)/($subject_count);
+        echo "<div class='bg-white w-[450px] h-[400px] rounded-lg drop-shadow-[rgba(255,255,255,1)] p-[20px] mt-[20px]'>";
         echo "<h2 class='text-blue-400 text-[17px] font-medium  text-center'>$name</h2>";
+        echo "<p>Subject & Scores</p>";
+        echo "<ul>";
+        echo "<div class='flex flex-col gap-y-[10px] mt-[10px]'>";
+        foreach($student["scores"] as $subject=>$score){
+            echo "<li class='px-[20px] bg-gray-300 rounded-md '>$subject: $score</li>";
+        }
+        echo "</div>";
+        echo "<p class='mt-[10px]'>Total Marks: $total_marks</p>";
+        echo "<p>Average Marks:" .round($average,2) ."</p>";
+        $grade_got=calculateGrade($average);
+        echo "<p class='flex justify-center item-center m-[40px] w-[150px] h-[50px]  bg-[".$grade_got["color"]."] rounded-md text-center text-white'>" .$grade_got["grade"]."</p>";
         echo "</div>";
     }
-    // foreach ($students as $student) {
-    //     $name = $student["name"];
-    //     $scores = $student["scores"];
-    //     $total = array_sum($scores);
-    //     $average = $total / count($scores);
-    //     $grade = calculateGrade($average);
-
-    //     echo "<div class='card'>";
-    //     echo "<h2>$name</h2>";
-    //     echo "<p><strong>Subjects & Scores:</strong></p>";
-    //     echo "<ul>";
-    //     foreach ($scores as $subject => $score) {
-    //         echo "<li>$subject: $score</li>";
-    //     }
-    //     echo "</ul>";
-    //     echo "<p><strong>Total Marks:</strong> $total</p>";
-    //     echo "<p><strong>Average Score:</strong> " . round($average, 2) . "</p>";
-    //     echo "<p class='grade'><strong>Grade:</strong> $grade</p>";
-    //     echo "</div>";
-    // }
     ?>
 </div>
 
